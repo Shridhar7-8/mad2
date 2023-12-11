@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Summary Page{% endblock %}
+
+{% block content %}
+<h1>Summary</h1>
+<h2>Number of Items in Each Section</h2>
+<img src="{{ url_for('static', filename='section_counts.png') }}" alt="Section Counts">
+<h2>Number of Items Sold from Each Section in the Past Seven Days</h2>
+<img src="{{ url_for('static', filename='sales_counts_by_section.png') }}" alt="Sales Counts by Section">
+<h2>Number of Individual Products Sold in the Past Seven Days</h2>
+<img src="{{ url_for('static', filename='sales_counts.png') }}" alt="Sales Counts">
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Edit Section</h1>
+    <form action='/admin/section/edit/{{ section.id }}/' method="post">
+        <label>Name:</label>
+        <input type="text" name="name" value="{{ section.name }}" required><br><br>
+        
+        <label>Section Type:</label>
+        <input type="text" name="section_type" value="{{ section.section_type }}"><br><br>
+        
+        
+        <button type="submit">Update Section</button>
+    </form>
+{% endblock %}

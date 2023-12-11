@@ -1,0 +1,298 @@
+openapi: 3.0.0
+info:
+  title: Grocery App API
+  version: 1.0.0
+  description: API for CRUD operations on sections and products in the Grocery App
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /api/sections:
+    get:
+      summary: Get all sections
+      operationId: getSections
+      responses:
+        '200':
+          description: A list of sections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Section'
+    post:
+      summary: Create a new section
+      operationId: createSection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewSection'
+      responses:
+        '201':
+          description: Section created successfully
+        '400':
+          description: Bad request - invalid input
+
+  /api/sections/{sectionId}:
+    get:
+      summary: Get a specific section by ID
+      operationId: getSectionById
+      parameters:
+        - name: sectionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Section details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+        '404':
+          description: Section not found
+
+    put:
+      summary: Update a specific section
+      operationId: updateSection
+      parameters:
+        - name: sectionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSection'
+      responses:
+        '200':
+          description: Section updated successfully
+        '400':
+          description: Bad request - invalid input
+        '404':
+          description: Section not found
+
+    delete:
+      summary: Delete a specific section
+      operationId: deleteSection
+      parameters:
+        - name: sectionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Section deleted successfully
+        '404':
+          description: Section not found
+
+  /api/products:
+    get:
+      summary: Get all products
+      operationId: getProducts
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      summary: Create a new product
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+      responses:
+        '201':
+          description: Product created successfully
+        '400':
+          description: Bad request - invalid input
+
+  /api/products/{productId}:
+    get:
+      summary: Get a specific product by ID
+      operationId: getProductById
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Product details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+
+    put:
+      summary: Update a specific product
+      operationId: updateProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProduct'
+      responses:
+        '200':
+          description: Product updated successfully
+        '400':
+          description: Bad request - invalid input
+        '404':
+          description: Product not found
+
+    delete:
+      summary: Delete a specific product
+      operationId: deleteProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Product deleted successfully
+        '404':
+          description: Product not found
+
+components:
+  schemas:
+    Section:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        section_type:
+          type: string
+      required:
+        - name
+        - section_type
+
+    NewSection:
+      type: object
+      properties:
+        name:
+          type: string
+        section_type:
+          type: string
+      required:
+        - name
+        - section_type
+
+    UpdateSection:
+      type: object
+      properties:
+        name:
+          type: string
+        section_type:
+          type: string
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        manufacture_date:
+          type: string
+          format: date
+        expiry_date:
+          type: string
+          format: date
+        rate:
+          type: number
+        unit:
+          type: string
+        section_id:
+          type: integer
+          format: int64
+        available_stock:
+          type: integer
+      required:
+        - name
+        - rate
+        - unit
+        - section_id
+        - available_stock
+
+    NewProduct:
+      type: object
+      properties:
+        name:
+          type: string
+        manufacture_date:
+          type: string
+          format: date
+        expiry_date:
+          type: string
+          format: date
+        rate:
+          type: number
+        unit:
+          type: string
+        section_id:
+          type: integer
+          format: int64
+        available_stock:
+          type: integer
+      required:
+        - name
+        - rate
+        - unit
+        - section_id
+        - available_stock
+
+    UpdateProduct:
+      type: object
+      properties:
+        name:
+          type: string
+        manufacture_date:
+          type: string
+          format: date
+        expiry_date:
+          type: string
+          format: date
+        rate:
+          type: number
+        unit:
+          type: string
+        section_id:
+          type: integer
+          format: int64

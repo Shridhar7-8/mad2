@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+    <h1>Products by Section</h1>
+    <ul>
+        {% for section in sections %}
+            <li>{{ section.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Products</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Rate</th>
+                <th>Unit</th>
+                <th>Available Stock</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.rate }}</td>
+                    <td>{{ product.unit }}</td>
+                    <td>{{ product.available_stock }}</td>
+                    <td>
+                        <form method="POST" action="/cart">
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="number" name="quantity" value="1" min="1">
+                            <button type="submit">Add to Cart</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>    
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>{{ section.name }}</h1>
+    <p>{{ section.section_type }}</p>
+
+    <h3>Products:</h3>
+    <a href="{{ url_for('create_product') }}" class="btn btn-primary">Create product</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Manufacture Date</th>
+                <th>Expiry Date</th>
+                <th>Rate</th>
+                <th>Unit</th>
+                <th>Available Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.manufacture_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ product.expiry_date.strftime('%Y-%m-%d') }}</td>
+
+                    <td>₹{{ '{:,.2f}'.format(product.rate) }}/{{product.unit}}</td>
+                    <td>{{ product.unit }}</td>
+                    <td>{{ product.available_stock }} {{product.unit}}</td>
+                    <td>
+                        <a href="{{ url_for('edit_product', product_id=product.id) }}" class="btn btn-secondary">Edit</a>
+                        <a href="{{ url_for('delete_product', product_id=product.id) }}" class="btn btn-danger">Remove</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}
+
+

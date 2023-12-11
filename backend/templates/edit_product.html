@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Edit Product</h1>
+    <form method="POST" action="{{ url_for('edit_product', product_id=product.id) }}">
+        <div>
+            <label>Name:</label>
+            <input type="text" name="name" value="{{ product.name }}" required>
+        </div>
+        <div>
+            <label>Manufacture Date:</label>
+            <input type="date" name="manufacture_date"
+                   value="{{ product.manufacture_date.strftime('%Y-%m-%d') }}" required>
+        </div>
+        <div>
+            <label>Expiry Date:</label>
+            <input type="date" name="expiry_date"
+                   value="{{ product.expiry_date.strftime('%Y-%m-%d') }}" required>
+        </div>
+        <div>
+            <label>Rate:</label>
+            <input type="number" name="rate" step="0.01" value="{{ product.rate }}" required>
+        </div>
+        <div>
+            <label>Unit:</label>
+            <select name="unit" required>
+                <option value="kg">/kg</option>
+                <option value="g">/g</option>
+                <option value="litre">/litre</option>
+                <option value="ml">/ml</option>
+                <option value="piece">/piece</option>
+            </select>
+        </div>
+        <div>
+            <label>Available_stock:</label>
+            <input type="number" name="available_stock" value="{{ product.available_stock }}" required>
+        </div>
+        <div>
+            <label>Section:</label>
+            <select name="section" required>
+                {% for section in sections %}
+                    {% if section.id == product.section_id %}
+                        <option value="{{ section.id }}" selected>{{ section.name }}</option>
+                    {% else %}
+                        <option value="{{ section.id }}">{{ section.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit">Update</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Categories</h1>
+
+  <form method="POST" action="{{ url_for('categories') }}">
+    <div class="form-group">
+      <input type="text" class="form-control" name="search_query" placeholder="Search products">
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+
+  {% for section in sections %}
+    <h2>{{ section.name }}</h2>
+    {% for product in section.products %}
+      <div>
+        <h3>{{ product.name }}</h3>
+        <!-- Display product details -->
+      </div>
+    {% endfor %}
+  {% endfor %}
+{% endblock %}

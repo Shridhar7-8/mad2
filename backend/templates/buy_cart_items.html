@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  
+  <h1>Confirm Purchase</h1>
+  <p>Are you sure you want to buy all the items in your cart?</p>
+
+  <form method="POST" action="{{ url_for('buy_cart_items') }}">
+    <input type="hidden" name="confirm_buy" value="true">
+    <button type="submit" class="btn btn-primary">Yes</button>
+  </form>
+
+  <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">No</a>
+{% endblock %}

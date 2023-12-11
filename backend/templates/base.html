@@ -1,0 +1,81 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.18.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-success" style="background-color: #8cc63f;">
+        <div class="container">
+            <a class="navbar-brand"  style="color:black"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo-img">
+                Farm Bliss</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {% if 'user_id' in session %}
+                <div class="d-flex justify-content-center">
+                    <form class="form-inline my-2 my-lg-0 mr-auto" action="{{ url_for('search') }}" method="POST">
+                        <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search Products" aria-label="Search" style="width: 300px;">
+                        <button class="btn btn-custom my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+                {% endif %}
+
+                
+                
+    
+                <ul class="navbar-nav ml-auto">
+                    {% if 'admin_id' not in session and 'user_id' not in session %}
+                        <!-- Navbar Links for Non-logged in users (Home, Admin Login, User Login) -->
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/" >Home <span class="sr-only">(current)</span></a>
+                        </li>
+    
+                    {% elif 'admin_id' in session %}
+                        <!-- Admin Dashboard Navbar Links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admindashboard') }}" >Admin Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('summary') }}" >Summary</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin_logout" >Logout</a>
+                        </li>
+                    {% elif 'user_id' in session %}
+                        <!-- User Dashboard Navbar Links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('user_dashboard') }}" >{{user_name}}'s Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart" >Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout" >Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+

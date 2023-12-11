@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Delete Product</h2>
+  <p>Are you sure you want to delete the following product?</p>
+  
+  <h4>{{ product.name }}</h4>
+  <p><strong>Manufacture Date:</strong> {{ product.manufacture_date.strftime('%Y-%m-%d') }}</p>
+  <p><strong>Expiry Date:</strong> {{ product.expiry_date.strftime('%Y-%m-%d') }}</p>
+  <p><strong>Rate:</strong> {{ product.rate }}/{{product.unit}}</p>
+  <p><strong>Unit:</strong> {{ product.unit }}</p>
+
+  <form method="POST">
+    <input type="hidden" name="confirm_delete" value="true">
+    <button type="submit" class="btn btn-danger">Confirm Deletion</button>
+    <a href="{{ url_for('admindashboard') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

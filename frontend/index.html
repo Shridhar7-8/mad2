@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue-router@3.0.0/dist/vue-router.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js"></script>
+
+</head>
+<style>
+     body {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  html{
+    height: 100%;
+  }
+  .footer {
+    display: flex;
+    flex-direction: row; /* Align the footer content in a row */
+    justify-content: space-between; /* Space out the content evenly */
+    background-color: #32dc41 !important;
+    padding: 10px 0;
+    margin-top: auto;
+    position: relative;
+    /* right: 0;
+    left: 0; */
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+</style>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Farm Bliss</a>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if current_user.is_authenticated %}
+                <!-- Check if the user has the "admin" role -->
+                {% for role in current_user.roles %}
+                {% if role.name == "admin" %}
+                <li class="nav-item">
+                    <router-link to="/admin" class="nav-link active">Admin Dashboard</router-link>
+                </li>
+                <li>
+                  <router-link to="/summary" class="nav-link active">Summary</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link active" to="/logout"><i class="fas fa-sign-out-alt"></i> Logout</router-link>
+                </li>
+                {% endif %}
+                {% endfor %}
+                <!-- Check if the user has the "user" role -->
+                {% for role in current_user.roles %}
+                {% if role.name == "user" %}
+                <li class="nav-item">
+                    <router-link to="/userdashboard" class="nav-link active">User Dashboard</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/cart" class="nav-link active">Cart</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/logout"><i class="fas fa-sign-out-alt"></i> Logout</router-link>
+                </li>
+                {% endif %}
+                {% endfor %}
+                <!-- Check if the user has the "manager" role -->
+                {% for role in current_user.roles %}
+                {% if role.name == "manager" %}
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/logout"><i class="fas fa-sign-out-alt"></i> Logout</router-link>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <!-- If the user is not authenticated, show login/register link -->
+                <li class="nav-item">
+                    <router-link class="nav-link active" to="/login">Login/Register</router-link>
+                </li>
+                {% endif %}
+            </ul>
+          </div>
+        </nav>
+        <router-view></router-view>
+    </div>
+    <div class="footer">
+      <div class="footer-content">
+        <h6 style="color: white">Contact Us:</h6>
+        <p style="color: white">
+          For support, please email:
+          <span style="color: rgb(0, 162, 255)">shridharkur@gmail.com</span>
+        </p>
+      </div>
+      <p style="color: white">
+        &copy; 2023 Grocery App. All rights reserved.
+      </p>
+    </div>
+</body>
+<script type="module" src="src/main.js"></script>
+</html>

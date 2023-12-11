@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Admin sign up</h1>
+<div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</div>
+<form action="/admin/create" method="post">
+    <label>Username</label>
+    <input type="text" name='admin_name' required>
+    <label>Password</label>
+    <input type="password" name="password" required>
+    <label>Contact</label>
+    <input type="tel" name="contact_no" required>
+    <button type="submit">Sign Up</button>
+</form>
+
+{% endblock %}

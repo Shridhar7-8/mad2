@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ section.name }}</h1>
+
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Rate</th>
+      <th>Available_stock</th>
+      <th>Manufacture Date</th>
+      <th>Expiry Date</th>
+      <th>Quantity</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+      <td>{{ product.name }}</td>
+      <td>₹{{ '{:,.2f}'.format(product.rate) }}/{{product.unit}}</td>
+      <td>{{ product.available_stock }} {{product.unit}}</td>
+      <td>{{ product.manufacture_date.strftime('%Y-%m-%d') }}</td>
+      <td>{{ product.expiry_date.strftime('%Y-%m-%d') }}</td>
+
+      <td>
+        {% if product.available_stock > 0 %}
+        <form action="{{ url_for('add_to_cart') }}" method="POST">
+          <input type="hidden" name="product_id" value="{{ product.id }}">
+          <input type="number" name="quantity" min="1" max="{{ product.available_stock }}" value="1">
+          <button type="submit">Add to Cart</button>
+        </form>
+        {% else %}
+        Out of Stock
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  
+{% endblock %}
+
+

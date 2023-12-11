@@ -1,0 +1,41 @@
+<!-- search_results.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Search Results</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Manufacture Date</th>
+                <th>Expiry Date</th>
+                <th>Rate</th>
+                <th>Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.available_stock }}</td>
+                    <td>{{ product.manufacture_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ product.expiry_date.strftime('%Y-%m-%d') }}</td>
+                    <td>₹{{ '{:,.2f}'.format(product.rate) }}</td>
+                    <td>{{ product.unit }}</td>
+                    <td>
+                        {% if product.available_stock > 0 %}
+                        <form action="{{ url_for('add_to_cart') }}" method="POST">
+                          <input type="hidden" name="product_id" value="{{ product.id }}">
+                          <input type="number" name="quantity" min="1" max="{{ product.available_stock }}" value="1">
+                          <button type="submit">Add to Cart</button>
+                        </form>
+                        {% else %}
+                        Out of Stock
+                        {% endif %}
+                      </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

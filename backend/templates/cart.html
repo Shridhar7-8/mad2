@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Cart</h2>
+    {% if cart_items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Rate</th>
+                    <th>Total Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cart_item in cart_items %}
+                {% if cart_item.product %}
+                <tr>
+                    <td>{{ cart_item.product.name }}</td>
+                    <td>{{ cart_item.quantity }} {{ cart_item.product.unit }}</td>
+                    <td>₹{{ '{:,.2f}'.format(cart_item.product.rate) }}/{{ cart_item.product.unit }}</td>
+                    <td>₹{{ '{:,.2f}'.format(cart_item.quantity * cart_item.product.rate) }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_cart_item', cart_item_id=cart_item.id) }}" class="btn btn-secondary">Edit</a>
+                        <a href="{{ url_for('remove_from_cart', cart_item_id=cart_item.id) }}" class="btn btn-danger">Remove</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Total Price: ₹{{ '{:,.2f}'.format(total_price) }}</p>
+        <form method="GET" action="{{ url_for('buy_cart_items') }}">
+            <button type="submit" class="btn btn-primary">Buy</button>
+        </form>
+    {% else %}
+        <p>No items in the cart.</p>
+    {% endif %}
+{% endblock %}
